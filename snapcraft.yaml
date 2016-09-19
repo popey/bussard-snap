@@ -1,0 +1,36 @@
+name: bussard
+version: "0b2"
+summary: Bussard
+description: |
+  A space flight programming adventure game. Mine, trade, upgrade, and unlock
+  the potential of your spacecraft by hacking on the code that makes it tick.
+
+confinement: strict
+grade: stable
+
+apps:
+  bussard:
+    command: desktop-launch $SNAP/launch_bussard
+    plugs: [pulseaudio, x11, network, network-bind, opengl, unity7]
+
+parts:
+  bussard:
+    after: [desktop-gtk3]
+    plugin: copy
+    source: https://gitlab.com/technomancy/bussard.git
+    files:
+      '*': './'
+    stage-packages:
+      - love
+      - libgl1-mesa-dri
+      - libgl1-mesa-glx
+      - libglew1.13
+      - fonts-noto
+      - fonts-inconsolata
+      - lua-socket
+      - ibus-gtk3
+  launcher:
+    plugin: copy
+    source: .
+    files:
+      'launch_bussard': launch_bussard
